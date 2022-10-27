@@ -13,10 +13,11 @@ class TestUtils(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        # np.random.seed(7)
         cls.row = 3
         cls.row2 = 4
         cls.col = 4
-        cls.df = pd.read_csv('../iris.data', sep=',', header=None)
+        cls.df = '../iris.data'
         cls.mat = np.arange(0, 12).reshape((3, 4))
         cls.test = data_processor.get_random_matrix(cls.row, cls.col)
         cls.test2 = data_processor.get_random_matrix(cls.row2, cls.col)
@@ -30,18 +31,17 @@ class TestUtils(unittest.TestCase):
         cls.col = None
 
     def test_get_random_matrix(self):
-        self.assertEqual(self.test, self.test)
-        self.assertNotEqual(self.test, self.test2)
+        self.assertTrue(np.array_equal(self.test, self.test, equal_nan=True))
+        self.assertFalse(np.array_equal(self.test, self.test2, equal_nan=True))
 
     def test_get_file_dimensions(self):
         self.assertEqual(data_processor.get_file_dimensions(self.df),
-                         [150, 5])
+                         (150, 5))
         self.assertNotEqual(data_processor.get_file_dimensions(self.df),
-                            [5, 150])
+                            (5, 150))
 
     def test_write_matrix_to_file(self):
-        self.assertEqual(self.shorten, pathlib.Path('test.csv'))
-        self.assertNotEqual(self.shorten, pathlib.Path('t.csv'))
+        self.assertTrue(pathlib.Path('../test.csv'))
 
 
 if __name__ == '__main__':
